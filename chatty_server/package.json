@@ -1,0 +1,23 @@
+{
+  "name": "chatty_server",
+  "version": "1.0.0",
+  "description": "Server for Chatty React app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/distal-shores/chatty-app.git"
+  },
+  "author": "Sam Coll",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/distal-shores/chatty-app/issues"
+  },
+  "homepage": "https://github.com/distal-shores/chatty-app#readme",
+  "dependencies": {
+    "express": "4.15.3",
+    "ws": "3.1.0"
+  }
+}
