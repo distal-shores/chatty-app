@@ -24,8 +24,10 @@ wss.on('connection', (ws) => {
         // Broadcast messages to all chat clients.
         wss.clients.forEach(function each(client) {
             let message = JSON.parse(data);
+            const uuid = uuidv4();
+            message.id = uuid;
             message = JSON.stringify(message);
-            message.concat({ id: uuidv4() });
+            console.log(message);
             client.send(message);
         });
     });
