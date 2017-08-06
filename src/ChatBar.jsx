@@ -18,7 +18,12 @@ class ChatBar extends Component {
         }
     }
     updateUsername(event) {
-        this.props.updateUsername(event.target.value);
+        // Trim whitespace from user entry
+        const newUsername = event.target.value.replace(/^\s+/, '').replace(/\s+$/, '');
+        console.log(newUsername);
+        if(newUsername !== '') {
+            this.props.updateUsername(newUsername);
+        }
     }
     render() {
         return (
