@@ -1,5 +1,6 @@
 const express = require('express');
 const SocketServer = require('ws').Server;
+const uuidv4 = require('uuid/v4');
 
 // Set the port to 3001
 const PORT = 3001;
@@ -18,6 +19,16 @@ const wss = new SocketServer({ server });
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
   	console.log('Client connected');
+
+    ws.on('message', function incoming(data) {
+        console.log('ping');
+        // Broadcast messages to all chat clients.
+        wss.clients.forEach(function each(client) {
+            let message = JSON.parse(data);
+            message = JSON.stringify(message);
+            client.send(message);
+        });
+    });
 
   	// Set up a callback for when a client closes the socket. This usually means they closed their browser.
   	ws.on('close', () => console.log('Client disconnected'));

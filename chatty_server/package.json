@@ -18,6 +18,7 @@
   "homepage": "https://github.com/distal-shores/chatty-app#readme",
   "dependencies": {
     "express": "4.15.3",
+    "uuid": "3.1.0",
     "ws": "3.1.0"
   }
 }
