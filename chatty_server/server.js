@@ -16,7 +16,10 @@ const wss = new SocketServer({ server });
 
 // Set up a callback that will run when a client connects to the server. When a client connects they are assigned a socket, represented by the ws parameter in the callback.
 wss.on('connection', (ws) => {
-  	console.log('Client connected');
+    const numUsers = wss.clients.size;
+    console.log('Client connected');
+    console.log(numUsers + ' user(s) connected');
+
     ws.on('message', function incoming(data) {
         // Broadcast messages to all chat clients.
         wss.clients.forEach(function each(client) {
