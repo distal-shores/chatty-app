@@ -14,24 +14,22 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer({ server });
 
-// Set up a callback that will run when a client connects to the server
-// When a client connects they are assigned a socket, represented by
-// the ws parameter in the callback.
+// Set up a callback that will run when a client connects to the server. When a client connects they are assigned a socket, represented by the ws parameter in the callback.
 wss.on('connection', (ws) => {
   	console.log('Client connected');
-
     ws.on('message', function incoming(data) {
         // Broadcast messages to all chat clients.
         wss.clients.forEach(function each(client) {
+            // Message needs to be converted from string to object
             let message = JSON.parse(data);
+            // Generate and assign a unique ID for each message
             const uuid = uuidv4();
             message.id = uuid;
+            // Convert message back into string for sending to client
             message = JSON.stringify(message);
-            console.log(message);
             client.send(message);
         });
     });
-
   	// Set up a callback for when a client closes the socket. This usually means they closed their browser.
   	ws.on('close', () => console.log('Client disconnected'));
 });
