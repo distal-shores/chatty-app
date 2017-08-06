@@ -18,19 +18,11 @@ class App extends Component {
         super(props);
         this.state = {
             messages: [],
-            currentUser: "Bob"
+            currentUser: "Anonymous"
         }
         this.sendMessage = this.sendMessage.bind(this);
         this.updateUsername = this.updateUsername.bind(this);
         this.socket = new WebSocket("ws://localhost:3001");
-    }
-    sendMessage(message) {
-        this.socket.send(JSON.stringify(message));
-    }
-    updateUsername(newUsername) {
-        this.setState({
-            currentUser: newUsername
-        });
     }
     render() {
         return (
@@ -40,6 +32,22 @@ class App extends Component {
                 <ChatBar sendMessage={ this.sendMessage } updateUsername={ this.updateUsername } currentUser={ this.state.currentUser } />
             </div>
         );
+    }
+    sendMessage(message) {
+        this.socket.send(JSON.stringify(message));
+    }
+    updateUsername(newUsername) {
+        const oldUsername = this.state.currentUser;
+        this.setState({
+            currentUser: newUsername
+        }, function() {
+            // Passing the notification send message as a callback on setState so that it contains the updated currentUser state.
+            this.socket.send(JSON.stringify({
+                username: this.state.currentUser,
+                content: oldUsername + " has changed their username to " + this.state.currentUser,
+                type: "notification"
+            }));
+        });
     }
 }
 

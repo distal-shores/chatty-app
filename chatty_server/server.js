@@ -21,11 +21,11 @@ wss.on('connection', (ws) => {
   	console.log('Client connected');
 
     ws.on('message', function incoming(data) {
-        console.log('ping');
         // Broadcast messages to all chat clients.
         wss.clients.forEach(function each(client) {
             let message = JSON.parse(data);
             message = JSON.stringify(message);
+            message.concat({ id: uuidv4() });
             client.send(message);
         });
     });
