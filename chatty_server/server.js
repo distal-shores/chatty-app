@@ -24,32 +24,40 @@ function randomColor(brightness){
     return '#' + randomChannel(brightness) + randomChannel(brightness) + randomChannel(brightness);
 }
 
+function broadcast(content) {
+    wss.clients.forEach(function each(client) {
+        client.send(JSON.stringify(content));
+    });
+}
+
+function logUserCount() {
+    console.log(numUsers.numUsers + ' user(s) connected');
+}
+
+const numUsers = {numUsers: wss.clients.size};
 // Set up a callback that will run when a client connects to the server. When a client connects they are assigned a socket, represented by the ws parameter in the callback.
 wss.on('connection', (ws) => {
-    const numUsers = {numUsers: wss.clients.size};
     console.log('Client connected');
-    console.log(numUsers.numUsers + ' user(s) connected');
-
-    // TODO: DRY this up into a single 'broadcast' function
-    wss.clients.forEach(function each(client) {
-        client.send(JSON.stringify(numUsers));
-    });
+    numUsers.numUsers = wss.clients.size; 
+    logUserCount();
+    broadcast(numUsers); 
 
     const assignedColor = randomColor(150);
 
     ws.on('message', function incoming(data) {
-        // Broadcast messages to all chat clients.
-        wss.clients.forEach(function each(client) {
-            // Message needs to be converted from string to object
-            let message = JSON.parse(data);
-            // Generate and assign a unique ID for each message
-            message.id = uuidv4();
-            message.color = assignedColor;
-            // Convert message back into string for sending to client
-            message = JSON.stringify(message);
-            client.send(message);
-        });
+        const message = JSON.parse(data);
+        message.id = uuidv4();
+        message.color = assignedColor;
+        broadcast(message);
     });
+
   	// Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  	ws.on('close', () => console.log('Client disconnected'));
+  	ws.on('close', () => {
+
+        console.log('Client disconnected');
+        numUsers.numUsers = wss.clients.size;
+        logUserCount();
+        broadcast(numUsers);
+
+    });
 });

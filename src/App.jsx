@@ -3,6 +3,7 @@ import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
 import NavBar from './NavBar.jsx';
 
+
 class App extends Component {
     componentDidMount() {
         this.socket.onopen = function (event) {
@@ -58,3 +59,9 @@ class App extends Component {
 
 
 export default App;
+
+// var React = require('react')
+// var AutoScroll = require('react-auto-scroll')
+// var Component = AutoScroll({
+//   property: 'propertyName'
+// })(React.createClass(/* ... */))
