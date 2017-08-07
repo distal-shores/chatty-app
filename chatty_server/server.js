@@ -14,7 +14,19 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer({ server });
 
-function randomColor(brightness){
+const numUsers = {numUsers: wss.clients.size};
+
+broadcast = (content) => {
+    wss.clients.forEach(function each(client) {
+        client.send(JSON.stringify(content));
+    });
+}
+
+logUserCount = () => {
+    console.log(numUsers.numUsers + ' user(s) connected');
+}
+
+randomColor = (brightness) => {
     function randomChannel(brightness){
         var r = 255-brightness;
         var n = 0|((Math.random() * r) + brightness);
@@ -24,17 +36,6 @@ function randomColor(brightness){
     return '#' + randomChannel(brightness) + randomChannel(brightness) + randomChannel(brightness);
 }
 
-function broadcast(content) {
-    wss.clients.forEach(function each(client) {
-        client.send(JSON.stringify(content));
-    });
-}
-
-function logUserCount() {
-    console.log(numUsers.numUsers + ' user(s) connected');
-}
-
-const numUsers = {numUsers: wss.clients.size};
 // Set up a callback that will run when a client connects to the server. When a client connects they are assigned a socket, represented by the ws parameter in the callback.
 wss.on('connection', (ws) => {
     console.log('Client connected');

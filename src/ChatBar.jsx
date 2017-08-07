@@ -20,8 +20,7 @@ class ChatBar extends Component {
     updateUsername(event) {
         // Trim whitespace from user entry
         const newUsername = event.target.value.replace(/^\s+/, '').replace(/\s+$/, '');
-        console.log(newUsername);
-        if(newUsername !== '') {
+        if(newUsername !== ('' || this.props.currentUser)) {
             this.props.updateUsername(newUsername);
         }
     }
