@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import SideBar from './SideBar.jsx';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
 import NavBar from './NavBar.jsx';
@@ -31,9 +32,12 @@ class App extends Component {
     }
     render() {
         return (
-            <div>
-                <NavBar numUsers={ this.state.numUsers } />
-                <MessageList messages={ this.state.messages } />
+            <div className="wrapper">
+                <NavBar />
+                <div className="application-body">
+                    <SideBar numUsers={ this.state.numUsers } />
+                    <MessageList messages={ this.state.messages } />
+                </div>
                 <ChatBar sendMessage={ this.sendMessage } updateUsername={ this.updateUsername } currentUser={ this.state.currentUser } />
             </div>
         );

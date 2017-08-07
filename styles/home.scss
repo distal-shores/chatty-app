@@ -9,13 +9,18 @@
     font-style: normal;
 }
 
+#react-root, .wrapper, html, body {
+    height:100%;
+    margin: 0;
+}
+
 body {
   background: white;
   color: black;
   font-family: 'Titillium Web', sans-serif;
   font-size: 14px;
   font-weight: 300;
-  margin: 70px 0;
+  height: 100%;
 }
 
 .chatbar {
@@ -46,6 +51,11 @@ body {
 .chatbar-username {
   flex: 2;
   font-weight: 600;
+}
+
+.messages {
+  flex: 1 1;
+  overflow: auto;
 }
 
 .message {
@@ -80,7 +90,6 @@ body {
   height: 60px;
   left: 0;
   padding: 0 10px;
-  position: fixed;
   right: 0;
   top: 0;
 }
@@ -97,8 +106,21 @@ body {
   text-decoration: none;
 }
 
+.sidebar {
+  background-color: $color4;
+  flex: 0 0 240px;
+}
+
 .user-display {
-  float: right;
   padding: 20px;
+}
+.application-body {
+  background-color: $color5;
+  display: flex;
+  flex: 1;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
 }
 
