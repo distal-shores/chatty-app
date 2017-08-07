@@ -14,6 +14,16 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer({ server });
 
+function randomColor(brightness){
+    function randomChannel(brightness){
+        var r = 255-brightness;
+        var n = 0|((Math.random() * r) + brightness);
+        var s = n.toString(16);
+        return (s.length==1) ? '0'+s : s;
+    }
+    return '#' + randomChannel(brightness) + randomChannel(brightness) + randomChannel(brightness);
+}
+
 // Set up a callback that will run when a client connects to the server. When a client connects they are assigned a socket, represented by the ws parameter in the callback.
 wss.on('connection', (ws) => {
     const numUsers = {numUsers: wss.clients.size};
@@ -25,14 +35,16 @@ wss.on('connection', (ws) => {
         client.send(JSON.stringify(numUsers));
     });
 
+    const assignedColor = randomColor(150);
+
     ws.on('message', function incoming(data) {
         // Broadcast messages to all chat clients.
         wss.clients.forEach(function each(client) {
             // Message needs to be converted from string to object
             let message = JSON.parse(data);
             // Generate and assign a unique ID for each message
-            const uuid = uuidv4();
-            message.id = uuid;
+            message.id = uuidv4();
+            message.color = assignedColor;
             // Convert message back into string for sending to client
             message = JSON.stringify(message);
             client.send(message);
