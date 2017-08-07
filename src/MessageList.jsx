@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
 import Message from './Message.jsx';
+import ReactDOM from 'react-dom';
 
 class MessageList extends Component {
+    componentDidUpdate() {
+        this.scrollToBottom();
+    }
     constructor(props) {
         super(props);
     }
@@ -12,9 +16,14 @@ class MessageList extends Component {
         );
         return (
             <main className="messages">
-                { messageList } 
+                { messageList }
+                <div style={{ float:"left", clear: "both" }} ref={(el) => { this.messagesEnd = el; }} />
             </main>
         );
+    }
+    scrollToBottom = () => {
+      const node = ReactDOM.findDOMNode(this.messagesEnd);
+      node.scrollIntoView({ behavior: "smooth" });
     }
 }
 
