@@ -10,15 +10,20 @@ class App extends Component {
         };
         this.socket.onmessage = (event) => {
             const message = JSON.parse(event.data);
-            const messages = this.state.messages.concat(message);
-            this.setState({ messages: messages });
-        } 
+            if(message.numUsers) {
+                this.setState({ numUsers: message.numUsers });
+            } else {
+                const messages = this.state.messages.concat(message);
+                this.setState({ messages: messages });
+            }
+        }
     }
     constructor(props) {
         super(props);
         this.state = {
             messages: [],
-            currentUser: "Anonymous"
+            currentUser: "Anonymous",
+            numUsers: 0
         }
         this.sendMessage = this.sendMessage.bind(this);
         this.updateUsername = this.updateUsername.bind(this);
@@ -27,7 +32,7 @@ class App extends Component {
     render() {
         return (
             <div>
-                <NavBar />
+                <NavBar numUsers={ this.state.numUsers } />
                 <MessageList messages={ this.state.messages } />
                 <ChatBar sendMessage={ this.sendMessage } updateUsername={ this.updateUsername } currentUser={ this.state.currentUser } />
             </div>
