@@ -1,6 +1,7 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css");
 @import url('https://fonts.googleapis.com/css?family=Titillium+Web:300,400,600,700');
+@import url('https://fonts.googleapis.com/css?family=Damion');
+
 
 @font-face {
     font-family: 'sf_speakeasyregular';
@@ -24,7 +25,7 @@ body {
 }
 
 .chatbar {
-  background: tomato;
+  background: $color2;
   border-top: 1px solid black;
   bottom: 0;
   display: flex;
@@ -51,6 +52,26 @@ body {
 .chatbar-username {
   flex: 2;
   font-weight: 600;
+}
+
+// TODO: Add a breakpoint to change the size of the logo @ ~747px
+
+.logo {
+  background: url('../img/yamr_logo2.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  display: block;
+  float: right;
+  height: 100px;
+  position:relative;
+  width: 300px;
+}
+
+.tagline {
+  color: $color1;
+  font-family: Damion, cursive;
+  font-size: 30px;
+
 }
 
 .messages {
@@ -85,13 +106,10 @@ body {
 }
 
 .navbar {
-  background: tomato;
-  border-bottom: 1px solid black;
+  background: #fff;
+  border-bottom: 2px solid $color2;
   height: 60px;
-  left: 0;
-  padding: 0 10px;
-  right: 0;
-  top: 0;
+  padding: 25px 25px 0 25px;
 }
 
 .navbar-brand {
@@ -116,6 +134,7 @@ body {
 }
 .application-body {
   background-color: $color5;
+  border-top: 4px solid $color3;
   display: flex;
   flex: 1;
 }

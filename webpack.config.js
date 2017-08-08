@@ -30,7 +30,10 @@ module.exports = {
       { 
         test: /\.(png|woff|woff2|eot|ttf|svg)$/, 
         loader: 'url-loader',
-        include: path.join(__dirname, 'fonts') 
+        include: [
+          path.join(__dirname, 'fonts'),
+          path.join(__dirname, 'img')
+        ]
       }
     ]
   }
