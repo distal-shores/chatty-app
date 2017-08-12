@@ -17,7 +17,9 @@ class App extends Component {
             } else if(message.users) {
                 this.setState({ users: message.users });
             } else if(message.userColor) {
-                this.setState({ color: message.userColor });
+                this.setState({ color: message.userColor }, function() {
+                    console.log(this.state.users);
+                });
             } else {
                 const messages = this.state.messages.concat(message);
                 this.setState({ messages: messages });
@@ -28,7 +30,6 @@ class App extends Component {
         if(this.state.currentUser !== prevState.currentUser) {
             this.socket.send(JSON.stringify(this.state.currentUser));
         }
-
     }
     constructor(props) {
         super(props);
@@ -36,7 +37,7 @@ class App extends Component {
             messages: [],
             currentUser: "Anonymous",
             numUsers: 0,
-            users: [],
+            users: {},
             color: 'black'
         }
         this.sendMessage = this.sendMessage.bind(this);
@@ -48,7 +49,7 @@ class App extends Component {
             <div className="wrapper">
                 <NavBar />
                 <div className="application-body">
-                    <SideBar numUsers={ this.state.numUsers } users={ this.state.users } color={ this.state.color } />
+                    <SideBar numUsers={ this.state.numUsers } users={ this.state.users } />
                     <MessageList messages={ this.state.messages } />
                 </div>
                 <ChatBar sendMessage={ this.sendMessage } updateUsername={ this.updateUsername } currentUser={ this.state.currentUser } />
